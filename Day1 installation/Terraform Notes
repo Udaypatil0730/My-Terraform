@@ -3,14 +3,19 @@
 -------------------------------------------------------------------------------------------------------
 
 ### What Is Terraform? 
-Terraform is an IAC tool, used primarily by DevOps teams to automate various infrastructure tasks. The provisioning of cloud resources, for instance, is one of the main use cases of Terraform. It’s a cloud-agnostic, open-source provisioning tool written in the Go language and created by HashiCorp.
+Terraform is an IAC tool, used primarily by DevOps teams to automate various infrastructure tasks. The provisioning of cloud resources, 
+for instance, is one of the main use cases of Terraform. It’s a cloud-agnostic, open-source provisioning tool written in the Go language 
+and created by HashiCorp.
 
-Terraform allows you to describe your complete infrastructure in the form of code. Even if your servers come from different providers such as AWS or Azure, Terraform helps you build and manage these resources in parallel across providers. Think of Terraform as connective tissue and common language that you can utilize to manage your entire IT stack.
+Terraform allows you to describe your complete infrastructure in the form of code. Even if your servers come from different providers 
+such as AWS or Azure, Terraform helps you build and manage these resources in parallel across providers. Think of Terraform as connective issue 
+and common language that you can utilize to manage your entire IT stack.
 
 
 ###--- Benefits of Infrastructure-as-Code (IaC) ---###
 
-IaC replaces standard operating procedures and manual effort required for IT resource management with lines of code. Instead of manually configuring cloud nodes or physical hardware, IaC automates the process infrastructure management through source code.
+IaC replaces standard operating procedures and manual effort required for IT resource management with lines of code. Instead of manually 
+configuring cloud nodes or physical hardware, IaC automates the process infrastructure management through source code.
 
 Here are several of the major key benefits of using an IaC solution like Terraform:
 
@@ -39,7 +44,11 @@ Terraform tutorials online often demonstrate a directory structure consisting of
 main.tf:    contains all providers, resources and data sources
 variables.tf: contains all defined variables
 output.tf:    contains all output resources
-The issue     with this structure is that most logic is stored in the single main.tf file which therefore becomes pretty complex and long. Terraform, however, does not mandate this structure, it only requires a directory of Terraform files. Since the filenames do not matter to Terraform I propose to use a structure that enables users to quickly understand the code. Personally I prefer the following structure 
+
+The issue with this structure is that most logic is stored in the single main.tf file which therefore becomes pretty complex and long.
+Terraform, however, does not mandate this structure, it only requires a directory of Terraform files. Since the filenames do not matter to Terraform 
+I propose to use a structure that enables users to quickly understand the code. Personally I prefer the following structure.
+
 provider.tf: contains the terraform block and provider block
 data.tf: contains all data sources
 variables.tf: contains all defined variables
@@ -63,11 +72,11 @@ terraform apply –auto-approve	:Apply changes without being prompted to enter �
 terraform destroy –auto-approve :Destroy/cleanup without being prompted to enter ”yes”
 
 Terraform Workspaces
-terraform workspace new	Create a new workspace and select it
-terraform workspace select	Select an existing workspace
-terraform workspace list	List the existing workspaces
-terraform workspace show	Show the name of the current workspace
-terraform workspace delete	Delete an empty workspace
+terraform workspace new	-- Create a new workspace and select it
+terraform workspace select	--Select an existing workspace
+terraform workspace list	--List the existing workspaces
+terraform workspace show	--Show the name of the current workspace
+terraform workspace delete	--Delete an empty workspace
 
 
 Terraform Import
@@ -76,17 +85,24 @@ terraform import aws_instance.example i-abcd1234(instance id)	#import an AWS ins
 
 ---## Statefile ##--:
 ## What is state and why is it important in Terraform? #########
-“Terraform must store state about your managed infrastructure and configuration. This state is used by Terraform to map real world resources to your configuration, keep track of metadata, and to improve performance for large infrastructures. This state file is extremely important; it maps various resource metadata to actual resource IDs so that Terraform knows what it is managing. This file must be saved and distributed to anyone who might run Terraform.”
+“Terraform must store state about your managed infrastructure and configuration. This state is used by Terraform to map real world resources
+to your configuration, keep track of metadata, and to improve performance for large infrastructures. This state file is extremely important; 
+it maps various resource metadata to actual resource IDs so that Terraform knows what it is managing. This file must be saved and distributed 
+to anyone who might run Terraform.”
 
 Remote State:
-“By default, Terraform stores state locally in a file named terraform.tfstate. When working with Terraform in a team, use of a local file makes Terraform usage complicated because each user must make sure they always have the latest state data before running Terraform and make sure that nobody else runs Terraform at the same time.”
+“By default, Terraform stores state locally in a file named terraform.tfstate. When working with Terraform in a team, use of a local file makes 
+Terraform usage complicated because each user must make sure they always have the latest state data before running Terraform and make sure that 
+nobody else runs Terraform at the same time.”
 
 “With remote state, Terraform writes the state data to a remote data store, which can then be shared between all members of a team.”
 
 State Lock:
-“If supported by your backend, Terraform will lock your state for all operations that could write state. This prevents others from acquiring the lock and potentially corrupting your state.”
+“If supported by your backend, Terraform will lock your state for all operations that could write state. This prevents others from acquiring the 
+lock and potentially corrupting your state.”
 
-“State locking happens automatically on all operations that could write state. You won’t see any message that it is happening. If state locking fails, Terraform will not continue. You can disable state locking for most commands with the -lock flag but it is not recommended.”
+“State locking happens automatically on all operations that could write state. You won’t see any message that it is happening. 
+If state locking fails, Terraform will not continue. You can disable state locking for most commands with the -lock flag but it is not recommended.”
 
 ## Setting up our S3 Backend 
 Create a new file in your working directory labeled Backend.tf
@@ -133,14 +149,19 @@ resource "aws_s3_bucket" "example" {
  ## --- DATA source ##----- 
 
 What is Data Source?
-Data source in terraform relates to resources but only it gives the information about an object rather than creating one. It provides dynamic information about the entities we define outside of terraform.
-Data Sources allow fetching data about the infrastructure components’ configuration. It allows to fetch data from the cloud provider APIs using terraform scripts.
-When we refer to a resource using a data source, it won’t create the resource. Instead, they get information about that resource so that we can use it in further configuration if required.
+Data source in terraform relates to resources but only it gives the information about an object rather than creating one. 
+It provides dynamic information about the entities we define outside of terraform.
+
+Data Sources allow fetching data about the infrastructure components’ configuration. It allows to fetch data from the cloud provider APIs 
+using terraform scripts. When we refer to a resource using a data source, it won’t create the resource. Instead, they get information about 
+that resource so that we can use it in further configuration if required.
 
 How to use Data Source?
-For example, we will create an ec2 instance using a vpc and subnet, both of which are created on aws console that is external to terraform configuration.
+For example, we will create an ec2 instance using a vpc and subnet, both of which are created on aws console that is external to terraform 
+configuration.
 
-Step 1: Create a terraform directory and create a file named provider.tf in it. Below code represents the details of the aws provider that we’re using, like its region, access key and secret key.
+Step 1: Create a terraform directory and create a file named provider.tf in it. Below code represents the details of the aws provider that 
+we’re using, like its region, access key and secret key.
 
 provider "aws"{
   region     = "us-east-1"
@@ -195,8 +216,13 @@ tags = {
     Name = "DataSource- Instance"
   }
 }
-In the above block of code, we are using a vpc and a subnet that is already created on AWS using its console. Then using data block, which refers to data sources, that is, a vpc and a subnet. By doing this, we are retrieving the information about the vpc and subnet that are created outside of terraform configuration. Then creating a security group that uses vpc_id that was fetched using data block. Further creating the EC2 instance that uses the subnet_id that was also fetched using data block.
-So, in this example, data source is being used to get data about the vpc and subnet that were not created using terraform script and using this data further for creating an EC2.
+In the above block of code, we are using a vpc and a subnet that is already created on AWS using its console. Then using data block, 
+which refers to data sources, that is, a vpc and a subnet. By doing this, we are retrieving the information about the vpc and subnet that are created 
+outside of terraform configuration. Then creating a security group that uses vpc_id that was fetched using data block. Further creating the EC2 instance 
+that uses the subnet_id that was also fetched using data block.
+
+So, in this example, data source is being used to get data about the vpc and subnet that were not created using terraform script and using this data further 
+for creating an EC2.
 
 
   case-2
@@ -228,19 +254,28 @@ So, in this example, data source is being used to get data about the vpc and sub
  ------------ #### Terraform Import ####-----------------------------
 
 Why Terraform Impoert?
-Terraform is a relatively new technology and adopting it to manage an organisation’s cloud resources might take some time and effort. The lack of human resources and the steep learning curve involved in using Terraform effectively causes teams to start using cloud infrastructure directly via their respective web consoles.
+Terraform is a relatively new technology and adopting it to manage an organisation’s cloud resources might take some time and effort. The lack of human resources 
+and the steep learning curve involved in using Terraform effectively causes teams to start using cloud infrastructure directly via their respective web consoles.
 
-For that matter, any kind of IaC method (CloudFormation, Azure ARM templates, Pulumi, etc.) requires some training and real-time scenario handling experience. Things get especially complicated when dealing with concepts like states and remote backends. In a worst case scenario, you can lose the terraform.tfstate file. Luckily, you can use the import functionality to rebuild it.
+For that matter, any kind of IaC method (CloudFormation, Azure ARM templates, Pulumi, etc.) requires some training and real-time scenario handling experience. 
+Things get especially complicated when dealing with concepts like states and remote backends. In a worst case scenario, you can lose the terraform.tfstate file. 
+Luckily, you can use the import functionality to rebuild it.
 
-Getting the pre-existing cloud resources under the Terraform management is facilitated by Terraform import. import is a Terraform CLI command which is used to read real-world infrastructure and update the state, so that future updates to the same set of infrastructure can be applied via IaC.
+Getting the pre-existing cloud resources under the Terraform management is facilitated by Terraform import. import is a Terraform CLI command which is used 
+to read real-world infrastructure and update the state, so that future updates to the same set of infrastructure can be applied via IaC.
 
-The import functionality helps update the state locally and it does not create the corresponding configuration automatically. However, the Terraform team is working hard to improve this function in upcoming releases.
+The import functionality helps update the state locally and it does not create the corresponding configuration automatically. However, the Terraform team
+is working hard to improve this function in upcoming releases.
 
 Simple Import
-With an understanding of why we need to import cloud resources, let us begin by importing a simple resource – EC2 instance in AWS. I am assuming the Terraform installation and configuration of AWS credentials in AWS CLI is already done locally. We will not go into the details of that in this tutorial. To import a simple resource into Terraform, follow the below step-by-step guide. 
+With an understanding of why we need to import cloud resources, let us begin by importing a simple resource – EC2 instance in AWS. 
+I am assuming the Terraform installation and configuration of AWS credentials in AWS CLI is already done locally. We will not go into the details of 
+that in this tutorial. To import a simple resource into Terraform, follow the below step-by-step guide. 
 
 1. Prepare the EC2 Instance
-Assuming the Terraform installation and configuration of AWS credentials in AWS CLI is already done locally, begin by importing a simple resource—EC2 instance in AWS. For the sake of this tutorial, we will create an EC2 resource manually to be imported. This could be an optional step if you already have a target resource to be imported.
+Assuming the Terraform installation and configuration of AWS credentials in AWS CLI is already done locally, begin by importing a simple resource—EC2 
+instance in AWS. For the sake of this tutorial, we will create an EC2 resource manually to be imported. 
+This could be an optional step if you already have a target resource to be imported.
 
 Terraform: Create EC2 Instance in Existing VPC
 Go ahead and provision an EC2 instance in your AWS account. Here are the example details of the EC2 instance thus created:
@@ -252,7 +287,8 @@ VPC ID: vpc-1827ff72
 …
 
 2. Create main.tf and Set Provider Configuration
-The aim of this step is to import this EC2 instance into our Terraform configuration. In your desired path, create `main.tf` and configure the AWS provider. The file should look like the one below.
+The aim of this step is to import this EC2 instance into our Terraform configuration. In your desired path, create `main.tf` and configure the AWS provider. 
+The file should look like the one below.
 
 Importing EC2 Instance into Terraform Configuration: Example
 // Provider configuration
@@ -293,18 +329,23 @@ rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
 
 3. Write Config for Resource To Be Imported
-As discussed earlier, Terraform import does not generate the configuration files by itself. Thus, you need to create the corresponding configuration for the EC2 instance manually. This doesn’t need many arguments as we will have to add or modify them when we import the EC2 instance into our state file.
+As discussed earlier, Terraform import does not generate the configuration files by itself. Thus, you need to create the corresponding configuration 
+for the EC2 instance manually. This doesn’t need many arguments as we will have to add or modify them when we import the EC2 instance into our state file.
 
-However, if you don’t mind not seeing colorful output on CLI, you can begin adding all the arguments you know. But this is not a foolproof approach, because normally the infrastructure you may have to import will not have been created by you. So it is best to skip a few arguments anyway.
+However, if you don’t mind not seeing colorful output on CLI, you can begin adding all the arguments you know. But this is not a foolproof approach,
+because normally the infrastructure you may have to import will not have been created by you. So it is best to skip a few arguments anyway.
 
-In a moment we will take a look at how to adjust our configuration to reflect the exact resource. For now, append the main.tf file with EC2 config. For example, I have used the below config. The only reason I have included ami and instance_type attribute, is that they are the required arguments for aws_instance resource block.
+In a moment we will take a look at how to adjust our configuration to reflect the exact resource. For now, append the main.tf file with EC2 config. 
+For example, I have used the below config. The only reason I have included ami and instance_type attribute, is that they are the required arguments for 
+aws_instance resource block.
 
 resource "aws_instance" "myvm" {
  ami           = "unknown"(we need to add from state file reference)
  instance_type = "unknown"(we need to add from state file reference)
 }
 4. Import
-Think of it as if the cloud resource (EC2 instance) and its corresponding configuration were available in our files. All that’s left to do is to map the two into our state file. We do that by running the import command as follows.
+Think of it as if the cloud resource (EC2 instance) and its corresponding configuration were available in our files. All that’s left to do is to map 
+the two into our state file. We do that by running the import command as follows.
 
 import command:
 
@@ -320,12 +361,16 @@ Import successful!
 
 The resources that were imported are shown above. These resources are now in
 your Terraform state and will henceforth be managed by Terraform.
-The above command maps the aws_instance.myvm configuration to the EC2 instance using the ID. By mapping I mean that the state file now “knows” the existence of the EC2 instance with the given ID. The state file also contains information about each attribute of this EC2 instance, as it has fetched the same using the import command.
+The above command maps the aws_instance.myvm configuration to the EC2 instance using the ID. By mapping I mean that the state file now “knows”
+the existence of the EC2 instance with the given ID. The state file also contains information about each attribute of this EC2 instance, as it has 
+fetched the same using the import command.
 
 5. Observe State Files and Plan Output
-Please notice that the directory now also contains terraform.tfstate file. This file was generated after the import command was successfully run. Take a moment to go through the contents of this file.
+Please notice that the directory now also contains terraform.tfstate file. This file was generated after the import command was successfully run. 
+Take a moment to go through the contents of this file.
 
-Right now our configuration does not reflect all the attributes. Any attempt to plan/apply this configuration will fail because we have not adjusted the values of its attributes. To close the gap in configuration files and state files, run terraform plan and observe the output.
+Right now our configuration does not reflect all the attributes. Any attempt to plan/apply this configuration will fail because we have not 
+adjusted the values of its attributes. To close the gap in configuration files and state files, run terraform plan and observe the output.
 
 .
 .
@@ -346,7 +391,8 @@ Plan: 1 to add, 0 to change, 1 to destroy.
 
 Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply"
 now.
-The plan indicates that it would attempt to replace the EC2 instance. But this goes completely against our purpose. We could do it anyway by simply not caring about the existing resources, and creating new resources using configuration.
+The plan indicates that it would attempt to replace the EC2 instance. But this goes completely against our purpose. We could do it anyway by simply not 
+caring about the existing resources, and creating new resources using configuration.
 
 The good news is that Terraform has taken note of the existence of an EC2 instance that is associated with its state. 
 
@@ -424,13 +470,15 @@ If you have the same output, congratulations, as you have successfully imported 
 
 --------## Meta-arguments ##--------------
 
-Meta-arguments in Terraform are special arguments that can be used with resource blocks and modules to control their behavior or influence the infrastructure provisioning process. They provide additional configuration options beyond the regular resource-specific arguments.
+Meta-arguments in Terraform are special arguments that can be used with resource blocks and modules to control their behavior or influence the infrastructure 
+provisioning process. They provide additional configuration options beyond the regular resource-specific arguments.
 
 Meta-Arguments in Terraform are as follows:
 
 depends_on:    Specifies dependencies between resources. It ensures that one resource is created or updated before another resource.
 count:         Controls resource instantiation by setting the number of instances created based on a given condition or variable.
-for_each:      Allows creating multiple instances of a resource based on a map or set of strings. Each instance is created with its unique key-value pair.
+for_each:      Allows creating multiple instances of a resource based on a map or set of strings. Each instance is created with its unique 
+				key-value pair.
 lifecycle:     Defines lifecycle rules for managing resource updates, replacements, and deletions.
 provider:      Specifies the provider configuration for a resource. It allows selecting a specific provider or version for a resource.
 provisioner:   Specifies actions to be taken on a resource after creation, such as running scripts or executing commands.
